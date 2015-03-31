@@ -1,2 +1,2 @@
 # birde
-BirdE SMTP
+BirdE Mail
