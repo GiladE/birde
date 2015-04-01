@@ -11,7 +11,7 @@ import re
 
 
 # 1:
-def connect_to_server(host, port, username, password):
+def connect_to_server(host, port):
     connection_state=True
     clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     ssl_clientSocket = ssl.wrap_socket(clientSocket)
@@ -22,5 +22,5 @@ def connect_to_server(host, port, username, password):
     else:
         return data
 
-message = connect_to_server('smtp.gmail.com', 465, 'jsidney006@gmail.com', 'drzkdwvqkxrhzsfx')
+message = connect_to_server('smtp.gmail.com', 465)
 print message
