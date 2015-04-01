@@ -9,6 +9,4 @@ class Message(models.Model):
     dateSent = models.DateTimeField('date sent')
     subject = models.CharField(max_length=500)
     body = models.CharField(max_length=50000)
-    type = models.BooleanField()
-
-
+    type = models.BooleanField(default=False)
