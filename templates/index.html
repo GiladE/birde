@@ -1,0 +1,27 @@
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<table class="table table-striped">
+
+    {% bootstrap_alert "<span class='glyphicon glyphicon-cloud'></span>_birde" alert_type='info' %}
+    {% if message_list %}
+        <tr>
+            <th>Sent</th>
+            <th>Subject</th>
+            <th>Body</th>
+        </tr>
+        {% for message in message_list %}
+
+            <tr>
+                <td>{{ message.dateSent }}</td>
+                <td>{{ message.subject }}</td>
+                <td>{{ message.body }}</td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td>No messages found</td>
+        </tr>
+    {% endif %}
+</table>
