@@ -91,7 +91,7 @@ def return_latest_messages(socket,connection_message):
                 msgSubject = element.replace("Subject: ","")
             if element.find("From:")==0:
                 msgFrom = element.replace("From: ","")
-            if element.find("To:")==0:
+            if element[0:2]=="To:":
                 msgTo = element.replace("To: ","")
                 break
 
