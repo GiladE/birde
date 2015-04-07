@@ -13,9 +13,11 @@
             {% for message in message_list %}
                 
                 <tr>
-                {% for key, value in message.items %}
-                    <td>{{value}}</td>
-                {% endfor %}
+                    <td>{% message['date'] %}</td>
+                    <td>{% message['to'] %}</td>
+                    <td>{% message['body'] %}</td>
+                    <td>{% message['from'] %}</td>
+                    <td>{% message['subject'] %}</td>
                 </tr>
             {% endfor %}
         {% else %}
