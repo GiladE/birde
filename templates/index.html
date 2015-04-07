@@ -13,11 +13,11 @@
             {% for message in message_list %}
                 
                 <tr>
-                    <td>{% message['date'] %}</td>
-                    <td>{% message['to'] %}</td>
-                    <td>{% message['body'] %}</td>
-                    <td>{% message['from'] %}</td>
-                    <td>{% message['subject'] %}</td>
+                    <td>{{ message['date'] }}</td>
+                    <td>{{ message['to'] }}</td>
+                    <td>{{ message['body'] }}</td>
+                    <td>{{ message['from'] }}</td>
+                    <td>{{ message['subject'] }}</td>
                 </tr>
             {% endfor %}
         {% else %}
