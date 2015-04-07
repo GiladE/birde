@@ -9,11 +9,11 @@
                 <th>Body</th>
             </tr>
             {% for message in message_list %}
-
+                
                 <tr>
-                    <td>{{ message.date }}</td>
-                    <td>{{ message.subject }}</td>
-                    <td></td>
+                {% for key, value in message.items %}
+                    <td>{{value}}</td>
+                {% endfor %}
                 </tr>
             {% endfor %}
         {% else %}
