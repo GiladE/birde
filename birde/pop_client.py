@@ -87,11 +87,11 @@ def return_latest_messages(socket,connection_message):
         for element in raw_message[1].split("\r\n"):
             if element.find("Date:")==0:
                 msgDate=element.replace("Date: ","")[0:-6]
-            if element.find("Subject:"):
+            if element.find("Subject:")==0:
                 msgSubject = element.replace("Subject: ","")
             if element.find("From:")==0:
                 msgFrom = element.replace("From: ","")
-            if element[0:2]=="To:":
+            if element.find("To:")==0:
                 msgTo = element.replace("To: ","")
                 break
 
