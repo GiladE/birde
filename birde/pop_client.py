@@ -76,7 +76,7 @@ def return_specific_message(socket, connection_message, message_num):
 def return_latest_messages(socket,connection_message):
     mailbox_status = return_server_status(socket,connection_message)
     mailbox_size = int(mailbox_status)
-    stop_point = mailbox_size - 1
+    stop_point = mailbox_size - 5
     latest_messages = []
     for counter in range(mailbox_size, stop_point, -1):
         raw_message = return_specific_message(socket, connection_message, str(counter))
@@ -85,16 +85,37 @@ def return_latest_messages(socket,connection_message):
             if raw_message[1].split("\r\n")[i].find("Content-Type: text/html")==0:
                 msgBody="".join(raw_message[1].split("\r\n")[i+1:])
         for element in raw_message[1].split("\r\n"):
-            if element.find("Date:")==0:
+            if element[0:4]=="Date:":
                 msgDate=element.replace("Date: ","")[0:-6]
-            if element.find("Subject:")==0:
+            if element[0:7]=="Subject:":
                 msgSubject = element.replace("Subject: ","")
-            if element.find("From:")==0:
+            if element[0:4]=="From:":
                 msgFrom = element.replace("From: ","")
-            if element.find("To:")==0:
+            if element[0:2]=="To:":
                 msgTo = element.replace("To: ","")
               #  break
 
         temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody}
         latest_messages.append(temp_message)
     return latest_messages
+
+
+# For Testing Purpose:s
+myhost ="pop.gmail.com"
+myusername ="gilad@eventov.com"
+myport =995
+mypassword ="vepkwhhtypmsmivy"
+my_connection_message, my_socket = connect_to_server(myhost, myport, myusername, mypassword)
+server_info = return_server_status(my_socket, my_connection_message)
+print server_info
+print "New Messages:"
+print "_____________"
+newest_messages = return_latest_messages(my_socket,my_connection_message)
+print newest_messages
+for i in newest_messages:
+    print i
+#for i in newest_messages:
+#    print repr(i)
+# newestmessage=return_specific_message(my_socket, my_connection_message,"1")
+# print newestmessage[1].split("\r\n")
+my_socket.close()
