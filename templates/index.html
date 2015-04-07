@@ -11,9 +11,9 @@
             {% for message in message_list %}
 
                 <tr>
-                    <td>{{ message.dateSent }}</td>
+                    <td>{{ message.date }}</td>
                     <td>{{ message.subject }}</td>
-                    <td>{{ message.body }}</td>
+                    <td></td>
                 </tr>
             {% endfor %}
         {% else %}

@@ -1,3 +1,4 @@
+__author__ = 'JontyHomeLol'
 import socket
 import ssl
 import re
@@ -33,54 +34,67 @@ def connect_to_server(host, port, username, password):
                 connection_state=False
             else:
                 print "Connection to Server Successful"
-                connection_state=True
+                connection_state = True
     return connection_state, ssl_clientSocket
 
 
 # 2:
-def return_server_status(host, port, username, password):
-    returning_data = [2]
-    (connection_message, ssl_client_socket) = connect_to_server(host, port, username, password)
+def return_server_status(socket,connection_message):
+    returning_data = ''
     if connection_message:
-        ssl_client_socket.send("STAT \r\n")
-        data = ssl_client_socket.read(2048).split(" ")
-        returning_data[0] = data[1]
-        print data
-        returning_data[2] = re.sub('[^0-9]', '', data[2])
-        print returning_data
-        ssl_client_socket.close()
+        socket.send("STAT \r\n")
+        #returning_data.append(ssl_client_socket.read(2048))
+        data = socket.read(2048).split(" ")
+        returning_data = data[1]
+        # returning_data.append(re.sub('[^0-9]', '', data[2]))
     else:
         print "Error Connecting to Server"
     return returning_data
 
 
 # 3:
-def return_specific_message(host, port, username, password, message_num):
+def return_specific_message(socket, connection_message, message_num):
     message = []
-    (connection_message, ssl_client_socket) = connect_to_server(host, port, username, password)
+    
     if connection_message:
-        ssl_client_socket.send("LIST "+message_num+"\r\n")
-        message_data = ssl_client_socket.read(2048).split(" ")
+        socket.send("LIST "+message_num+"\r\n")
+        message_data = socket.read(2048).split(" ")
         message_length = int(re.sub('[^0-9]', '', message_data[2]))
-        ssl_client_socket.send("RETR "+message_num+"\r\n")
+        socket.send("RETR "+message_num+"\r\n")
         amount_received = 0
         while amount_received < message_length:
-            data = ssl_client_socket.recv(50000)
+            data = socket.recv(50000)
             amount_received += len(data)
             message.append(data)
-        ssl_client_socket.close()
+        
     else:
         print "Error Connecting to Server"
     return message
 
 
 # 4:
-def return_latest_messages(host, port, username, password):
-    mailbox_status = return_server_status(host, port, username, password)
-    mailbox_size = mailbox_status[0]
-    stop_point = mailbox_size - 20
+def return_latest_messages(socket,connection_message):
+    mailbox_status = return_server_status(socket,connection_message)
+    mailbox_size = int(mailbox_status)
+    stop_point = mailbox_size - 1
     latest_messages = []
-    for counter in range(mailbox_size-1, stop_point, -1):
-        temp_message = return_specific_message(host, port, username, password, counter)
+    for counter in range(mailbox_size, stop_point, -1):
+        raw_message = return_specific_message(socket, connection_message, str(counter))
+        msgDate,msgSubject,msgFrom,msgTo,msgBody="","","","",""
+        for i in xrange(len(raw_message[1].split("\r\n"))-1):
+            if raw_message[1].split("\r\n")[i].find("Content-Type: text/html")==0:
+                msgBody="".join(raw_message[1].split("\r\n")[i+1:])
+        for element in raw_message[1].split("\r\n"):
+            if element.find("Date:")==0:
+                msgDate=element.replace("Date: ","")[0:-6]
+            if element.find("Subject:")==0:
+                msgSubject = element.replace("Subject: ","")
+            if element.find("From:")==0:
+                msgFrom = element.replace("From: ","")
+            if element.find("To:")==0:
+                msgTo = element.replace("To: ","")
+                break
+        temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody}
         latest_messages.append(temp_message)
     return latest_messages
+
