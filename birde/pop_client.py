@@ -1,4 +1,3 @@
-__author__ = 'JontyHomeLol'
 import socket
 import ssl
 import re
@@ -55,7 +54,7 @@ def return_server_status(socket,connection_message):
 # 3:
 def return_specific_message(socket, connection_message, message_num):
     message = []
-    
+
     if connection_message:
         socket.send("LIST "+message_num+"\r\n")
         message_data = socket.read(2048).split(" ")
@@ -67,7 +66,7 @@ def return_specific_message(socket, connection_message, message_num):
                 data = socket.recv(50000)
                 amount_received += len(data)
                 message.append(data)
-        
+
     else:
         print "Error Connecting to Server"
     return message
@@ -77,7 +76,7 @@ def return_specific_message(socket, connection_message, message_num):
 def return_latest_messages(socket,connection_message):
     mailbox_status = return_server_status(socket,connection_message)
     mailbox_size = int(mailbox_status)
-    stop_point = mailbox_size - 1
+    stop_point = mailbox_size - 5
     latest_messages = []
     for counter in range(mailbox_size, stop_point, -1):
         raw_message = return_specific_message(socket, connection_message, str(counter))
@@ -86,19 +85,16 @@ def return_latest_messages(socket,connection_message):
             if raw_message[1].split("\r\n")[i].find("Content-Type: text/html")==0:
                 msgBody="".join(raw_message[1].split("\r\n")[i+1:])
         for element in raw_message[1].split("\r\n"):
-            if element[0:4]=="Date:":
+            if element.find("Date:")==0:
                 msgDate=element.replace("Date: ","")[0:-6]
-            if element[0:7]=="Subject:":
+            if element.find("Subject:"):
                 msgSubject = element.replace("Subject: ","")
-            if element[0:4]=="From:":
+            if element.find("From:")==0:
                 msgFrom = element.replace("From: ","")
-            if element[0:2]=="To:":
+            if element.find("To:")==0:
                 msgTo = element.replace("To: ","")
-              #  break
+                break
 
         temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody}
         latest_messages.append(temp_message)
     return latest_messages
-
-
-
