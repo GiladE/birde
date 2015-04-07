@@ -77,7 +77,7 @@ def return_specific_message(socket, connection_message, message_num):
 def return_latest_messages(socket,connection_message):
     mailbox_status = return_server_status(socket,connection_message)
     mailbox_size = int(mailbox_status)
-    stop_point = mailbox_size - 5
+    stop_point = mailbox_size - 1
     latest_messages = []
     for counter in range(mailbox_size, stop_point, -1):
         raw_message = return_specific_message(socket, connection_message, str(counter))
