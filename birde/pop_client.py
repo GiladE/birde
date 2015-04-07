@@ -59,13 +59,14 @@ def return_specific_message(socket, connection_message, message_num):
     if connection_message:
         socket.send("LIST "+message_num+"\r\n")
         message_data = socket.read(2048).split(" ")
-        message_length = int(re.sub('[^0-9]', '', message_data[2]))
-        socket.send("RETR "+message_num+"\r\n")
-        amount_received = 0
-        while amount_received < message_length:
-            data = socket.recv(50000)
-            amount_received += len(data)
-            message.append(data)
+        if(message_data[0]!="ERR"):
+            message_length = int(re.sub('[^0-9]', '', message_data[2]))
+            socket.send("RETR "+message_num+"\r\n")
+            amount_received = 0
+            while amount_received < message_length:
+                data = socket.recv(50000)
+                amount_received += len(data)
+                message.append(data)
         
     else:
         print "Error Connecting to Server"
