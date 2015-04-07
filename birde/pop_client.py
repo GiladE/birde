@@ -42,7 +42,7 @@ def connect_to_server(host, port, username, password):
 def return_server_status(socket,connection_message):
     returning_data = ''
     if connection_message:
-        socket.send("STAT \r\n")
+       	socket.send("STAT \r\n")
         #returning_data.append(ssl_client_socket.read(2048))
         data = socket.read(2048).split(" ")
         returning_data = data[1]
@@ -76,7 +76,7 @@ def return_specific_message(socket, connection_message, message_num):
 def return_latest_messages(socket,connection_message):
     mailbox_status = return_server_status(socket,connection_message)
     mailbox_size = int(mailbox_status)
-    stop_point = mailbox_size - 1
+    stop_point = mailbox_size - 5
     latest_messages = []
     for counter in range(mailbox_size, stop_point, -1):
         raw_message = return_specific_message(socket, connection_message, str(counter))
@@ -93,8 +93,8 @@ def return_latest_messages(socket,connection_message):
                 msgFrom = element.replace("From: ","")
             if element.find("To:")==0:
                 msgTo = element.replace("To: ","")
-                break
+              #  break
+
         temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody}
         latest_messages.append(temp_message)
     return latest_messages
-
