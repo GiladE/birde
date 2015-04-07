@@ -101,22 +101,4 @@ def return_latest_messages(socket,connection_message):
     return latest_messages
 
 
-# For Testing Purpose:s
-myhost ="pop.gmail.com"
-myusername ="gilad@eventov.com"
-myport =995
-mypassword ="vepkwhhtypmsmivy"
-my_connection_message, my_socket = connect_to_server(myhost, myport, myusername, mypassword)
-server_info = return_server_status(my_socket, my_connection_message)
-print server_info
-print "New Messages:"
-print "_____________"
-newest_messages = return_latest_messages(my_socket,my_connection_message)
-print newest_messages
-for i in newest_messages:
-    print i
-#for i in newest_messages:
-#    print repr(i)
-# newestmessage=return_specific_message(my_socket, my_connection_message,"1")
-# print newestmessage[1].split("\r\n")
-my_socket.close()
+
