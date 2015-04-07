@@ -4,17 +4,17 @@
 
         {% if message_list %}
             <tr>
-                <th>Sent</th>
-                <th>To</th>
                 <th>Date Sent</th>
-                <th>Subject</th>
+                <th>To</th>
                 <th>Body</th>
+                <th>From</th>
+                <th>Subject</th>
             </tr>
             {% for message in message_list %}
                 
                 <tr>
                 {% for key, value in message.items %}
-                    <td>{{key}} - {{value}}</td>
+                    <td>{{value}}</td>
                 {% endfor %}
                 </tr>
             {% endfor %}
