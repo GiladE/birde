@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from birde.models import Message,Connection,User
 from django.http import HttpResponse
+from django.shortcuts import redirect
 import json, datetime
 from django.views.decorators.csrf import csrf_exempt
 
@@ -26,3 +27,10 @@ def send(request):
     savedMsg = Message(sender=con_details.smtpUser,recipient=msgTo,dateSent=datetime.datetime.now(),subject=msgSubject,body=msgBody,type=True,owner_id=User.objects.get(username="root").id)
     savedMsg.save()
     return HttpResponse(json.dumps(response_data),content_type='application/json')
+
+@csrf_exempt
+def delete(request):
+    con_details=Connection.objects.get(user_id=User.objects.get(username="root"))
+    message,socket=pop_client.connect_to_server(con_details.popHost,con_details.popPort,con_details.popUser,con_details.popPass)
+    delMsg = pop_client.delete_message(socket,message,request.POST.get('msgnum'))
+    return HttpResponse(json.dumps({"response":"deleted!!!"}),content_type='application/json')

@@ -88,7 +88,7 @@ def return_specific_message(socket, connection_message, message_num):
                 msgBodySm = msgBody[:40]
             else:
                 msgBodySm = msgBody
-            temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody,"bodysm":msgBodySm}
+            temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody,"bodysm":msgBodySm,"msgnum":message_num}
     else:
         print "Error Connecting to Server"
     return temp_message
