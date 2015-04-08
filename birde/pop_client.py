@@ -1,7 +1,7 @@
 import socket
 import ssl
 import re
-
+import html2text
 #METHODS FOR COMMUNICATING WITH POP SERVER:
 # List:    name                   purpose
 #       1: connect_to_server       : connect to POP server and verify user credentials.
@@ -66,35 +66,44 @@ def return_specific_message(socket, connection_message, message_num):
                 data = socket.recv(50000)
                 amount_received += len(data)
                 message.append(data)
+            msgDate,msgSubject,msgFrom,msgTo,msgBody,msgBodySm="","","","","",""
+            for i in xrange(len(message[1].split("\r\n"))-1):
+                if message[1].split("\r\n")[i].find("Content-Type: text/html")==0:
+                    msgBody="".join(message[1].split("\r\n")[i+1:])
+            for element in message[1].split("\r\n"):
+                if element.find("Date:")==0:
+                    msgDate=element.replace("Date: ","")[0:-6]
+                if element.find("Subject:")==0:
+                    msgSubject = element.replace("Subject: ","")
+                if element.find("From:")==0:
+                    msgFrom = element.replace("From: ","")
+                if element.find("To:")==0:
+                    msgTo = element.replace("To: ","")
+                    break
+            msgBody = html2text.html2text(msgBody)
+            if(len(msgBody)>= 40):
+                msgBodySm = msgBody[:40]
+            else:
+                msgBodySm = msgBody
+            temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody,"bodysm":msgBodySm}
 
     else:
         print "Error Connecting to Server"
-    return message
+    return temp_message
 
 
 # 4:
 def return_latest_messages(socket,connection_message):
     mailbox_status = return_server_status(socket,connection_message)
     mailbox_size = int(mailbox_status)
-    stop_point = mailbox_size - 5
+    stop_point = mailbox_size - 10
     latest_messages = []
-    for counter in range(mailbox_size, stop_point, -1):
-        raw_message = return_specific_message(socket, connection_message, str(counter))
-        msgDate,msgSubject,msgFrom,msgTo,msgBody="","","","",""
-        for i in xrange(len(raw_message[1].split("\r\n"))-1):
-            if raw_message[1].split("\r\n")[i].find("Content-Type: text/html")==0:
-                msgBody="".join(raw_message[1].split("\r\n")[i+1:])
-        for element in raw_message[1].split("\r\n"):
-            if element.find("Date:")==0:
-                msgDate=element.replace("Date: ","")[0:-6]
-            if element.find("Subject:")==0:
-                msgSubject = element.replace("Subject: ","")
-            if element.find("From:")==0:
-                msgFrom = element.replace("From: ","")
-            if element.find("To:")==0:
-                msgTo = element.replace("To: ","")
-                break
-
-        temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody}
-        latest_messages.append(temp_message)
+    if(mailbox_size <=10):
+        for counter in range(mailbox_size, 0, -1):
+            temp_message=return_specific_message(socket, connection_message, str(counter))
+            latest_messages.append(temp_message)
+    else:
+        for counter in range(mailbox_size, stop_point, -1):
+            temp_message=return_specific_message(socket,connection_message,str(counter))
+            latest_messages.append(temp_message)
     return latest_messages
