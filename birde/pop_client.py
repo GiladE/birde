@@ -8,6 +8,9 @@ import re
 #       2: return_server_status    : returns the number of messages in the mailbox as well as the size of the mailbox.
 #       3: return_specific_message : returns a specific message as specified by the user.
 #       4: return_latest_messages  : returns the latest 20 messages on the mailbox.
+#       4: return_latest_messages  : returns the latest 10 messages on the mailbox. (if there aren't 10 messages, all messages are displayed)
+#       5: return_all_messages     : returns all messages on the mailbox
+#       6: delete_message          : deletes a specific message from the mailbox
 
 # 1:
 def connect_to_server(host, port, username, password):
@@ -102,7 +105,26 @@ def return_latest_messages(socket,connection_message):
             temp_message=return_specific_message(socket, connection_message, str(counter))
             latest_messages.append(temp_message)
     else:
-        for counter in range(mailbox_size, stop_point, -1):
-            temp_message=return_specific_message(socket,connection_message,str(counter))
-            latest_messages.append(temp_message)
+        latest_messages = return_all_messages(socket, connection_message)
     return latest_messages
+
+
+# 5:
+def return_all_messages(socket, connection_message):
+    mailbox_status = return_server_status(socket, connection_message)
+    mailbox_size = int(mailbox_status)
+    all_messages=[]
+    for counter in range(mailbox_size,0,-1):
+        temp_message=return_specific_message(socket, connection_message, str(counter))
+        all_messages.append(temp_message)
+    return all_messages
+
+
+# 6:
+def delete_message(socket, connection_message, message_num):
+    if connection_message:
+        socket.send("DELE "+str(message_num)+"\r\n")
+        response = socket.recv(2048)
+        socket.send("QUIT \r\n")
+        response += "\n" + socket.recv(2048)
+    return response
