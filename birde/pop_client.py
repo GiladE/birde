@@ -53,7 +53,7 @@ def return_server_status(socket,connection_message):
 
 # 3:
 def return_specific_message(socket, connection_message, message_num):
-    message = []
+    message = ""
 
     if connection_message:
         socket.send("LIST "+message_num+"\r\n")
@@ -65,12 +65,12 @@ def return_specific_message(socket, connection_message, message_num):
             while amount_received < message_length:
                 data = socket.recv(50000)
                 amount_received += len(data)
-                message.append(data)
+                message+=data
             msgDate,msgSubject,msgFrom,msgTo,msgBody,msgBodySm="","","","","",""
-            for i in xrange(len(message[1].split("\r\n"))-1):
-                if message[1].split("\r\n")[i].find("Content-Type: text/html")==0:
-                    msgBody="".join(message[1].split("\r\n")[i+1:])
-            for element in message[1].split("\r\n"):
+            for i in xrange(len(message.split("\r\n"))-1):
+                if message.split("\r\n")[i].find("Content-Type: text/html")==0:
+                    msgBody="".join(message.split("\r\n")[i+1:])
+            for element in message.split("\r\n"):
                 if element.find("Date:")==0:
                     msgDate=element.replace("Date: ","")[0:-6]
                 if element.find("Subject:")==0:
@@ -80,13 +80,12 @@ def return_specific_message(socket, connection_message, message_num):
                 if element.find("To:")==0:
                     msgTo = element.replace("To: ","")
                     break
-            msgBody = html2text.html2text(msgBody)
+            #msgBody = html2text.html2text(msgBody)
             if(len(msgBody)>= 40):
                 msgBodySm = msgBody[:40]
             else:
                 msgBodySm = msgBody
             temp_message={"date":msgDate,"subject":msgSubject,"to":msgTo,"from":msgFrom,"body":msgBody,"bodysm":msgBodySm}
-
     else:
         print "Error Connecting to Server"
     return temp_message

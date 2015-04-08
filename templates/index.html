@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="panel panel-success"><div class="panel panel-body">
     <table class="table table-striped">
 
         {% if message_list %}
@@ -8,22 +9,20 @@
                 <th>To</th>
                 <th>From</th>
                 <th>Subject</th>
-                <th>Contents</th>
                 <th>
-                    <div data-toggle="tooltip"  data-target="#composeModal" data-placement="top" title="Compose New Email">
-                        <button type="button" class="btn btn-primary" data-toggle="modal">
+                    <div data-toggle="tooltip" data-placement="top" title="Compose New Email">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#composeModal">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
                     </div>
                 </th>
             </tr>
             {% for message in message_list %}
-                <tr data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">
-                    <td>{{ message.date }}</td>
-                    <td>{{ message.to }}</td>
-                    <td>{{ message.from }}</td>
-                    <td>{{ message.subject }}</td>
-                    <td>{{ message.bodysm }}</td>
+                <tr data-toggle="tooltip" data-placement="left" title="Click to View">
+                    <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.date }}</td>
+                    <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.to }}</td>
+                    <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.from }}</td>
+                    <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.subject }}</td>
                     <td>
                         <button type="submit" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Reply" >
                         <span class="glyphicon glyphicon-share-alt"></span>
@@ -31,7 +30,7 @@
                     </td>
                 </tr>
             <td colspan="6">
-                <div id="{{ forloop.counter }}" class="collapse">{{ message.body }}</div>
+                <div id="{{ forloop.counter }}" class="collapse">{{ message.body | safe}}</div>
             </td>
         </tr>
             {% endfor %}
@@ -41,6 +40,7 @@
             </tr>
         {% endif %}
     </table>
+    </div></div>
     <!-- Modal -->
     <div class="modal fade" id="composeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
