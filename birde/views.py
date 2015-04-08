@@ -1,6 +1,10 @@
 from django.shortcuts import render
-
 from birde.models import Message,Connection,User
+from django.http import HttpResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+
+
 import pop_client
 
 
@@ -11,3 +15,11 @@ def index(request):
     #message_list = Message.objects.order_by('-dateSent')[:5]
     context = {'message_list': message_list}
     return render(request, 'index.html', context)
+
+@csrf_exempt
+def send(request):
+	msgTo = request.POST.get('email')
+	msgSubject = request.POST.get('subject')
+	msgBody = request.POST.get('message')
+	response_data={"response":"250"}
+	return HttpResponse(json.dumps(response_data),content_type='application/json')

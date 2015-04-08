@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'birde.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^$', views.index, name='index'),
+    url(r'^send/', views.send, name='send'),
     url(r'^admin/', include(admin.site.urls)),
 )
