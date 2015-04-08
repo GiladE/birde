@@ -1,7 +1,7 @@
 import socket
 import ssl
 import re
-import html2text
+#import html2text
 #METHODS FOR COMMUNICATING WITH POP SERVER:
 # List:    name                   purpose
 #       1: connect_to_server       : connect to POP server and verify user credentials.
