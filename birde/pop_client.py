@@ -1,7 +1,7 @@
 import socket
 import ssl
 import re
-import html2text
+#import html2text
 #METHODS FOR COMMUNICATING WITH POP SERVER:
 # List:    name                   purpose
 #       1: connect_to_server       : connect to POP server and verify user credentials.
@@ -80,7 +80,7 @@ def return_specific_message(socket, connection_message, message_num):
                 if element.find("To:")==0:
                     msgTo = element.replace("To: ","")
                     break
-            msgBody = html2text.html2text(msgBody)
+            #msgBody = html2text.html2text(msgBody)
             if(len(msgBody)>= 40):
                 msgBodySm = msgBody[:40]
             else:
