@@ -1,95 +1,137 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="panel panel-success"><div class="panel panel-body">
-    <table class="table table-striped">
+    <div class="panel panel-success">
+        <div class="panel panel-heading">
+            Received Email
+        </div>
+        <div class="panel panel-body">
+            <table class="table table-striped">
 
-        {% if message_list %}
-            <tr>
-                <th>Date Sent</th>
-                <th>To</th>
-                <th>From</th>
-                <th>Subject</th>
-                <th>
-                    <div data-toggle="tooltip" data-placement="top" title="Compose New Email">
-                        <button type="button" id="composeButton" class="btn btn-primary" data-toggle="modal" data-target="#composeModal">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </button>
-                    </div>
-                </th>
-            </tr>
-            {% for message in message_list %}
-                <tr data-toggle="tooltip" data-placement="left" title="Click to View">
-                    <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.date }}</td>
-                    <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.to }}</td>
-                    <td data-toggle="collapse" data-target="#{{ forloop.counter }}" id="from{{ forloop.counter }}" class="clickable">{{ message.from }}</td>
-                    <td data-toggle="collapse" data-target="#{{ forloop.counter }}" id="subject{{ forloop.counter }}" class="clickable">{{ message.subject }}</td>
-                    <td>
-                        <button type="submit" class="btn btn-success reply" id="reply{{ forloop.counter }}" data-toggle="tooltip" data-placement="top" title="Reply" >
-                        <span class="glyphicon glyphicon-share-alt"></span>
-                        </button>
-                        <button type="submit" class="btn btn-danger delete" id="delete{{ message.msgnum }}" data-toggle="tooltip" data-placement="right" title="Delete" >
-                        <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                    </td>
+                {% if message_list %}
+                    <tr>
+                        <th>Date Sent</th>
+                        <th>To</th>
+                        <th>From</th>
+                        <th>Subject</th>
+                        <th>
+                            <div data-toggle="tooltip" data-placement="top" title="Compose New Email">
+                                <button type="button" id="composeButton" class="btn btn-primary" data-toggle="modal" data-target="#composeModal">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </div>
+                        </th>
+                    </tr>
+                    {% for message in message_list %}
+                        <tr data-toggle="tooltip" data-placement="left" title="Click to View">
+                            <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.date }}</td>
+                            <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.to }}</td>
+                            <td data-toggle="collapse" data-target="#{{ forloop.counter }}" id="from{{ forloop.counter }}" class="clickable">{{ message.from }}</td>
+                            <td data-toggle="collapse" data-target="#{{ forloop.counter }}" id="subject{{ forloop.counter }}" class="clickable">{{ message.subject }}</td>
+                            <td>
+                                <button type="submit" class="btn btn-success reply" id="reply{{ forloop.counter }}" data-toggle="tooltip" data-placement="top" title="Reply" >
+                                    <span class="glyphicon glyphicon-share-alt"></span>
+                                </button>
+                                <button type="submit" class="btn btn-danger delete" id="delete{{ message.msgnum }}" data-toggle="tooltip" data-placement="right" title="Delete" >
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <td colspan="6">
+                            <div id="{{ forloop.counter }}" class="collapse">{{ message.body | safe}}</div>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>No messages found</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-success">
+        <div class="panel panel-heading">
+            Sent Email
+        </div>
+        <div class="panel panel-body">
+            <table class="table table-striped">
+                {% if sent_list %}
+                <tr>
+                        <th>Date Sent</th>
+                        <th>To</th>
+                        <th>From</th>
+                        <th>Subject</th>
+                        <th>
+                        </th>
                 </tr>
-            <td colspan="6">
-                <div id="{{ forloop.counter }}" class="collapse">{{ message.body | safe}}</div>
-            </td>
-        </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td>No messages found</td>
-            </tr>
-        {% endif %}
-    </table>
-    </div></div>
+                    {% for message in sent_list %}
+                            <tr data-toggle="tooltip" data-placement="left" title="Click to View">
+                            <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.dateSent }}</td>
+                            <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.recipient }}</td>
+                            <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.sender }}</td>
+                            <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.subject }}</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <td colspan="6">
+                            <div id="R{{ forloop.counter }}" class="collapse">{{ message.body | safe}}</div>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>No messages found</td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="composeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Compose</h4><br/>
-            <div hidden id="notice"></div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Compose</h4><br/>
+                    <div hidden id="notice"></div>
 
-          </div>
-          <div class="modal-body">
-            <div class="container">
-                <form id="sendForm">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email">To: </label>
-                                <div class="input-group">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Enter recipient's email" required="required" /></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="subject">Subject</label>
-                                <div class="input-group">
-                                    <input type="text" name="subject" class="form-control" id="subject" placeholder="Enter email subject"/>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="sendForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email">To: </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                                            <input type="email" name="email" class="form-control" id="email" placeholder="Enter recipient's email" required="required" /></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subject">Subject</label>
+                                        <div class="input-group">
+                                            <input type="text" name="subject" class="form-control" id="subject" placeholder="Enter email subject"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Message</label>
+                                        <textarea name="message" id="message" class="form-control" rows="9" cols="25" required="required" placeholder="Message"></textarea>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary pull-right" id="sendButton">Send Message</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="name">Message</label>
-                                <textarea name="message" id="message" class="form-control" rows="9" cols="25" required="required" placeholder="Message"></textarea>
-                            </div>
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-primary pull-right" id="sendButton">Send Message</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+
             </div>
         </div>
-
-    </div>
-    </div>
     </div>
     <script>
         $(function () {
-          $('[data-toggle="tooltip"]').tooltip()
+            $('[data-toggle="tooltip"]').tooltip()
         });
         $(".reply").on("click",function(){
             var id = $(this).attr("id").substring(5);
@@ -105,133 +147,133 @@
             $(this).addClass("m-progress");
             var msgnum = $(this).attr("id").substring(6);
             $.ajax("/delete/", {
-                        async: true,
-                        type: "POST",
-                        data: {msgnum:msgnum},
-                        success:
-                    function (data) {
-                        alert("Message has been Deleted. This page will be reloaded.")
-                        location.reload();
-                    },
-                });
+                async: true,
+                type: "POST",
+                data: {msgnum:msgnum},
+                success:
+                        function (data) {
+                            alert("Message has been Deleted. This page will be reloaded.")
+                            location.reload();
+                        }
+            });
         });
         $("#sendForm").submit(function(e){
             e.preventDefault();
             $("#sendButton").addClass("m-progress").attr('disabled','disabled');
             var data = $(this).serialize();
             $.ajax("/send/", {
-                        async: true,
-                        type: "POST",
-                        data: data,
-                        success:
-                    function (data) {
-                        if (data["response"]=="250")
-                        {
-                            $("#notice").html("<p><span class='glyphicon glyphicon-ok'></span> Your message has been sent :)</p>").show("medium");
-                            $("#email").val("");
-                            $("#subject").val("");
-                            $("#message").val("");
-                            $("#sendButton").removeClass("m-progress").removeAttr('disabled');
+                async: true,
+                type: "POST",
+                data: data,
+                success:
+                        function (data) {
+                            if (data["response"]=="250")
+                            {
+                                $("#notice").html("<p><span class='glyphicon glyphicon-ok'></span> Your message has been sent :)</p>").show("medium");
+                                $("#email").val("");
+                                $("#subject").val("");
+                                $("#message").val("");
+                                $("#sendButton").removeClass("m-progress").removeAttr('disabled');
+                            }
                         }
-                    },
-                });
+            });
         });
     </script>
-<style>
-@-webkit-keyframes ld {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-@-moz-keyframes ld {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-@-o-keyframes ld {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg) scale(1); }
-}
-@keyframes ld {
-  0%   { transform: rotate(0deg) scale(1); }
-  50%  { transform: rotate(180deg) scale(1.1); }
-  100% { transform: rotate(360deg) scale(1); }
-}
+    <style>
+        @-webkit-keyframes ld {
+            0%   { transform: rotate(0deg) scale(1); }
+            50%  { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        @-moz-keyframes ld {
+            0%   { transform: rotate(0deg) scale(1); }
+            50%  { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        @-o-keyframes ld {
+            0%   { transform: rotate(0deg) scale(1); }
+            50%  { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+        @keyframes ld {
+            0%   { transform: rotate(0deg) scale(1); }
+            50%  { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
 
-.m-progress {
-    position: relative;
-    opacity: .8;
-    color: transparent !important;
-    text-shadow: none !important;
-}
+        .m-progress {
+            position: relative;
+            opacity: .8;
+            color: transparent !important;
+            text-shadow: none !important;
+        }
 
-.m-progress:hover,
-.m-progress:active,
-.m-progress:focus {
-    cursor: default;
-    color: transparent;
-    outline: none !important;
-    box-shadow: none;
-}
+        .m-progress:hover,
+        .m-progress:active,
+        .m-progress:focus {
+            cursor: default;
+            color: transparent;
+            outline: none !important;
+            box-shadow: none;
+        }
 
-.m-progress:before {
-    content: '';
-    
-    display: inline-block;
-    
-    position: absolute;
-    background: transparent;
-    border: 1px solid #fff;
-    border-top-color: transparent;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    
-    box-sizing: border-box;
-    
-    top: 50%;
-    left: 50%;
-    margin-top: -12px;
-    margin-left: -12px;
-    
-    width: 24px;
-    height: 24px;
-    
-    -webkit-animation: ld 1s ease-in-out infinite;
-    -moz-animation:    ld 1s ease-in-out infinite;
-    -o-animation:      ld 1s ease-in-out infinite;
-    animation:         ld 1s ease-in-out infinite;
-}
+        .m-progress:before {
+            content: '';
 
-.btn-default.m-progress:before {
-    border-left-color: #333333;
-    border-right-color: #333333;
-}
+            display: inline-block;
 
-.btn-lg.m-progress:before {
-    margin-top: -16px;
-    margin-left: -16px;
-    
-    width: 32px;
-    height: 32px;
-}
+            position: absolute;
+            background: transparent;
+            border: 1px solid #fff;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            border-radius: 50%;
 
-.btn-sm.m-progress:before {
-    margin-top: -9px;
-    margin-left: -9px;
-    
-    width: 18px;
-    height: 18px;
-}
+            box-sizing: border-box;
 
-.btn-xs.m-progress:before {
-    margin-top: -7px;
-    margin-left: -7px;
-    
-    width: 14px;
-    height: 14px;
-}
-</style>
+            top: 50%;
+            left: 50%;
+            margin-top: -12px;
+            margin-left: -12px;
+
+            width: 24px;
+            height: 24px;
+
+            -webkit-animation: ld 1s ease-in-out infinite;
+            -moz-animation:    ld 1s ease-in-out infinite;
+            -o-animation:      ld 1s ease-in-out infinite;
+            animation:         ld 1s ease-in-out infinite;
+        }
+
+        .btn-default.m-progress:before {
+            border-left-color: #333333;
+            border-right-color: #333333;
+        }
+
+        .btn-lg.m-progress:before {
+            margin-top: -16px;
+            margin-left: -16px;
+
+            width: 32px;
+            height: 32px;
+        }
+
+        .btn-sm.m-progress:before {
+            margin-top: -9px;
+            margin-left: -9px;
+
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-xs.m-progress:before {
+            margin-top: -7px;
+            margin-left: -7px;
+
+            width: 14px;
+            height: 14px;
+        }
+    </style>
 {% endblock %}
 
 

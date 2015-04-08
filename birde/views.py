@@ -13,7 +13,8 @@ def index(request):
     con_details=Connection.objects.get(user_id=User.objects.get(username="root"))
     message,socket=pop_client.connect_to_server(con_details.popHost,con_details.popPort,con_details.popUser,con_details.popPass)
     message_list=pop_client.return_latest_messages(socket,message)
-    context = {'message_list': message_list}
+    sent_list=Message.objects.all()
+    context = {'message_list': message_list, "sent_list":sent_list}
     return render(request, 'index.html', context)
 
 @csrf_exempt
