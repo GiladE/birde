@@ -66,8 +66,8 @@ def send_mail(host, port, username, password, recipiant, message_subject, messag
                         server_communications.append(temp_data)
                         temp_data = ""
                         ssl_client_socket.send("quit \r\n")
-                        temp_data = ssl_client_socket.recv(2048)
-                        server_communications.append(temp_data)
+                        #temp_data = ssl_client_socket.recv(2048)
+                        #server_communications.append(temp_data)
                     else:
                         server_communications.append(temp_data)
                         temp_data = ""
