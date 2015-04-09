@@ -102,7 +102,7 @@ def chat(request):
             all_messages=[]
             raw_messages=Message.objects.all().filter(type=False)
             for msg in raw_messages:
-                all_messages.append(dict({"sender":getattr(msg.owner,"username"),"body":msg.body,"time":str(msg.dateSent)}))
+                all_messages.append(dict({"sender":getattr(msg.owner,"username"),"body":msg.body,"time":":".join(str(msg.dateSent).split(":")[:2]).split(".")[0]}))
             response={"code":"333","response":all_messages,"cat": "~(=^_^)"}
         elif message[1]=="LOGIN":
             #join room
@@ -115,7 +115,7 @@ def chat(request):
             all_messages=[]
             raw_messages=Message.objects.all().filter(type=False)
             for msg in raw_messages:
-                all_messages.append(dict({"sender":getattr(msg.owner,"username"),"body":msg.body,"time":str(msg.dateSent)}))
+                all_messages.append(dict({"sender":getattr(msg.owner,"username"),"body":msg.body,"time":":".join(str(msg.dateSent).split(":")[:2]).split(".")[0]}))
             response={"code":"333","response":all_messages,"cat": "~(=^_^)"}
             print response
         elif message[1]=="MOTD":

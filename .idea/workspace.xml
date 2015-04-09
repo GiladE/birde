@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ea0d41f-1563-484e-8ae6-bb1c6d43ef33" name="Default" comment="further templating">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/birde/views.py" afterPath="$PROJECT_DIR$/birde/views.py" />
     </list>
     <ignored path="birde.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,8 +43,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.22190201" vertical-offset="5188" max-vertical-offset="7215">
-              <caret line="351" column="59" selection-start-line="351" selection-start-column="59" selection-end-line="351" selection-end-column="59" />
+            <state vertical-scroll-proportion="0.518732" vertical-offset="5550" max-vertical-offset="7215">
+              <caret line="382" column="22" selection-start-line="382" selection-start-column="22" selection-end-line="382" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -54,7 +54,7 @@
         <entry file="file://$PROJECT_DIR$/birde/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1215" max-vertical-offset="1905">
-              <caret line="18" column="97" selection-start-line="18" selection-start-column="97" selection-end-line="18" selection-end-column="97" />
+              <caret line="104" column="160" selection-start-line="104" selection-start-column="160" selection-end-line="104" selection-end-column="160" />
               <folding />
             </state>
           </provider>
@@ -127,8 +127,8 @@
         <option value="$PROJECT_DIR$/birde/models.py" />
         <option value="$PROJECT_DIR$/birde/admin.py" />
         <option value="$PROJECT_DIR$/birde/urls.py" />
-        <option value="$PROJECT_DIR$/birde/views.py" />
         <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/birde/views.py" />
       </list>
     </option>
   </component>
@@ -946,15 +946,15 @@
     <entry file="file://$PROJECT_DIR$/birde/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1215" max-vertical-offset="1905">
-          <caret line="18" column="97" selection-start-line="18" selection-start-column="97" selection-end-line="18" selection-end-column="97" />
+          <caret line="104" column="160" selection-start-line="104" selection-start-column="160" selection-end-line="104" selection-end-column="160" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22190201" vertical-offset="5188" max-vertical-offset="7215">
-          <caret line="351" column="59" selection-start-line="351" selection-start-column="59" selection-end-line="351" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.518732" vertical-offset="5550" max-vertical-offset="7215">
+          <caret line="382" column="22" selection-start-line="382" selection-start-column="22" selection-end-line="382" selection-end-column="22" />
           <folding />
         </state>
       </provider>
