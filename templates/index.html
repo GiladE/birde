@@ -344,17 +344,17 @@
         });
         $("#chatForm").submit(function(e){
             e.preventDefault();
+            var tempdata = $("#chatForm").serialize();
             var chatbox=$("#chatsend").val();
             $("#chatsend").val("");
             $("#sendchat").addClass("m-progress");
             var data;
-            if (chatbox.split('|').length!=3)
+            if (chatbox.split('|').length!=3 && chatbox!="")
             {
                 data={"chatsend":"{{ current_user }}|SEND|"+chatbox+"|CYA"};
             }
             else
             {
-                var tempdata = $("#chatForm").serialize();
                 data={"chatsend":"{{ current_user }}|"+tempdata.split("chatsend=")[1].replace(new RegExp("%7C", 'g'), "|")};
             }
             $.ajax("/chat/", {
