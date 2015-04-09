@@ -13,6 +13,10 @@ class Connection (models.Model):
     smtpUser = models.CharField(max_length=200,default=None)
     smtpPass = models.CharField(max_length=200,default=None)
 
+class Chat (models.Model):
+    user = models.OneToOneField(User)
+    online = models.BooleanField(default=False)
+
 class Message(models.Model):
     owner = models.ForeignKey(User)
     sender = models.CharField(max_length=200)
