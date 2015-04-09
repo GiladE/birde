@@ -364,9 +364,17 @@
                 success:
                         function (data) {
                             $("#sendchat").removeClass("m-progress");
-                            $("#chatbox").val("");
-                            $.each(data["response"],function(i,item){
-                                $("#chatbox").val($("#chatbox").val()+item["sender"]+"<"+item["time"]+"> : "+item["body"]+"\n");
+							if(data["code"]=="333")
+							{
+								$("#chatbox").val("");
+								$.each(data["response"],function(i,item){
+								$("#chatbox").val($("#chatbox").val()+item["sender"]+"<"+item["time"]+"> : "+item["body"]+"\n");
+							}
+							else if(data["code"]=="666")
+							{
+								alert("Your message has been interpretted as a command but is not in the correct format");
+							}
+                            
                             });
                         }
             });
