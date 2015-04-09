@@ -16,7 +16,7 @@ def index(request):
     con_details=Connection.objects.get(user_id=User.objects.get(username=currentUser))
     message,socket=pop_client.connect_to_server(con_details.popHost,con_details.popPort,con_details.popUser,con_details.popPass)
     message_list=pop_client.return_latest_messages(socket,message)
-    sent_list=Message.objects.all().filter(owner=User.objects.get(username=currentUser))
+    sent_list=Message.objects.all().filter(owner=User.objects.get(username=currentUser),type=True)
     user_list=User.objects.all();
     context = {'message_list': message_list, "sent_list":sent_list,"user_list":user_list,"current_user":currentUser,"current_settings":con_details}
     return render(request, 'index.html', context)
