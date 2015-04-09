@@ -1,8 +1,51 @@
-{% extends "base.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<nav class="navbar navbar-default" style="background-color: rgb(158, 202, 59);">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><p style="color:white"><span class="glyphicon glyphicon-console"></span> birde_mail</p></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color:grey" disabled><label>Current User:</label></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ current_user }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        {% for user in user_list %}
+                            <li><a href="{% url "birde.views.index" %}?user={{ user.username }}">{{ user.username }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="#" data-toggle="modal" data-target="#settingsModal">Connection Settings</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
     <div class="panel panel-success">
         <div class="panel panel-heading">
             Received Email
+            <div data-toggle="tooltip" data-placement="top" title="Compose New Email" style="float:right">
+                <button type="button" id="composeButton" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#composeModal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
         </div>
         <div class="panel panel-body">
             <table class="table table-striped">
@@ -14,11 +57,7 @@
                         <th>From</th>
                         <th>Subject</th>
                         <th>
-                            <div data-toggle="tooltip" data-placement="top" title="Compose New Email">
-                                <button type="button" id="composeButton" class="btn btn-primary" data-toggle="modal" data-target="#composeModal">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button>
-                            </div>
+
                         </th>
                     </tr>
                     {% for message in message_list %}
@@ -56,16 +95,16 @@
         <div class="panel panel-body">
             <table class="table table-striped">
                 {% if sent_list %}
-                <tr>
+                    <tr>
                         <th>Date Sent</th>
                         <th>To</th>
                         <th>From</th>
                         <th>Subject</th>
                         <th>
                         </th>
-                </tr>
+                    </tr>
                     {% for message in sent_list %}
-                            <tr data-toggle="tooltip" data-placement="left" title="Click to View">
+                        <tr data-toggle="tooltip" data-placement="left" title="Click to View">
                             <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.dateSent }}</td>
                             <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.recipient }}</td>
                             <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.sender }}</td>
@@ -99,6 +138,7 @@
                 <div class="modal-body">
                     <div class="container">
                         <form id="sendForm">
+                            <input type="hidden" name="user" value="{{ current_user }}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -129,6 +169,80 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Connection Settings</h4><br/>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <form id="settingsForm">
+                            <input type="hidden" name="user" value="{{ current_user }}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="popHost">POP Host: </label>
+                                        <div class="input-group">
+                                            <input type="text" name="popHost" class="form-control" id="popHost" placeholder="Enter the POP Host address" required="required" value="{{ current_settings.popHost }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="popPort">POP Port</label>
+                                        <div class="input-group">
+                                            <input type="number" name="popPort" class="form-control" id="popPort" placeholder="Enter the POP server port" required="required" value="{{ current_settings.popPort }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="popUser">POP Username</label>
+                                        <div class="input-group">
+                                            <input type="text" name="popUser" class="form-control" id="popUser" placeholder="Enter the POP Username" required="required" value="{{ current_settings.popUser }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="popPass">POP Password</label>
+                                        <div class="input-group">
+                                            <input type="password" name="popPass" class="form-control" id="popPass" placeholder="Enter the POP Password" required="required" value="{{ current_settings.popPass }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtpHost">SMTP Host: </label>
+                                        <div class="input-group">
+                                            <input type="text" name="smtpHost" class="form-control" id="smtpHost" placeholder="Enter the SMTP Host address" required="required" value="{{ current_settings.smtpHost }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtpPort">SMTP Port</label>
+                                        <div class="input-group">
+                                            <input type="number" name="smtpPort" class="form-control" id="smtpPort" placeholder="Enter the SMTP server port" required="required" value="{{ current_settings.smtpPort }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtpUser">SMTP Username</label>
+                                        <div class="input-group">
+                                            <input type="text" name="smtpUser" class="form-control" id="smtpUser" placeholder="Enter the SMTP Username" required="required" value="{{ current_settings.smtpUser }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smtpPass">SMTP Password</label>
+                                        <div class="input-group">
+                                            <input type="password" name="smtpPass" class="form-control" id="smtpPass" placeholder="Enter the SMTP Password" required="required" value="{{ current_settings.smtpPass }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-primary pull-right" id="settingsButton">Save Settings</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
@@ -149,7 +263,7 @@
             $.ajax("/delete/", {
                 async: true,
                 type: "POST",
-                data: {msgnum:msgnum},
+                data: {msgnum:msgnum,user:"{{ current_user }}"},
                 success:
                         function (data) {
                             alert("Message has been Deleted. This page will be reloaded.")
@@ -175,6 +289,21 @@
                                 $("#message").val("");
                                 $("#sendButton").removeClass("m-progress").removeAttr('disabled');
                             }
+                        }
+            });
+        });
+        $("#settingsForm").submit(function(e){
+            e.preventDefault();
+            $("#settingsButton").addClass("m-progress").attr('disabled','disabled');
+            var data = $(this).serialize();
+            $.ajax("/settings/", {
+                async: true,
+                type: "POST",
+                data: data,
+                success:
+                        function (data) {
+                                $("#settingsButton").removeClass("m-progress").removeAttr('disabled');
+                                alert("Settings saved");
                         }
             });
         });
@@ -274,10 +403,6 @@
             height: 14px;
         }
     </style>
-{% endblock %}
-
-
-
-
-
-
+</div>
+</body>
+</html>
