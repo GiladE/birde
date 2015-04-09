@@ -368,7 +368,7 @@
 							{
 								$("#chatbox").val("");
 								$.each(data["response"],function(i,item){
-								$("#chatbox").val($("#chatbox").val()+item["sender"]+"<"+item["time"]+"> : "+item["body"]+"\n");
+								$("#chatbox").val($("#chatbox").val()+item["sender"]+"<"+item["time"]+"> : "+item["body"]+"\n");}
 							}
 							else if(data["code"]=="666")
 							{
