@@ -52,7 +52,7 @@
 
                 {% if message_list %}
                     <tr>
-                        <th>Date Sent</th>
+                        <th>Date</th>
                         <th>To</th>
                         <th>From</th>
                         <th>Subject</th>
@@ -61,7 +61,7 @@
                         </th>
                     </tr>
                     {% for message in message_list %}
-                        <tr data-toggle="tooltip" data-placement="left" title="Click to View">
+                        <tr class="hoverRow" data-toggle="tooltip" data-placement="left" title="Click to View">
                             <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.date }}</td>
                             <td data-toggle="collapse" data-target="#{{ forloop.counter }}" class="clickable">{{ message.to }}</td>
                             <td data-toggle="collapse" data-target="#{{ forloop.counter }}" id="from{{ forloop.counter }}" class="clickable">{{ message.from }}</td>
@@ -96,7 +96,7 @@
             <table class="table table-striped">
                 {% if sent_list %}
                     <tr>
-                        <th>Date Sent</th>
+                        <th>Date</th>
                         <th>To</th>
                         <th>From</th>
                         <th>Subject</th>
@@ -104,7 +104,7 @@
                         </th>
                     </tr>
                     {% for message in sent_list %}
-                        <tr data-toggle="tooltip" data-placement="left" title="Click to View">
+                        <tr class="hoverRow" data-toggle="tooltip" data-placement="left" title="Click to View">
                             <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.dateSent }}</td>
                             <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.recipient }}</td>
                             <td data-toggle="collapse" data-target="#R{{ forloop.counter }}" class="clickable">{{ message.sender }}</td>
@@ -309,6 +309,10 @@
         });
     </script>
     <style>
+    	.hoverRow:hover{
+    		cursor: pointer;
+    		background-color: #BFFFBF;
+    	}
         @-webkit-keyframes ld {
             0%   { transform: rotate(0deg) scale(1); }
             50%  { transform: rotate(180deg) scale(1.1); }

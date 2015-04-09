@@ -69,13 +69,21 @@ def return_specific_message(socket, connection_message, message_num):
                 data = socket.recv(50000)
                 amount_received += len(data)
                 message+=data
+            print "BEGIN RAW MESSAGE============================="
+            print message
+            print "END RAW MESSAGE============================="
             msgDate,msgSubject,msgFrom,msgTo,msgBody,msgBodySm="","","","","",""
+            "=========================BEGINMESSAGE"
             for i in xrange(len(message.split("\r\n"))-1):
                 if message.split("\r\n")[i].find("Content-Type: text/html")==0:
                     msgBody="".join(message.split("\r\n")[i+1:])
+                    print [msgBody]
             for element in message.split("\r\n"):
+                print [element]
                 if element.find("Date:")==0:
                     msgDate=element.replace("Date: ","")[0:-6]
+                elif element.find('Delivery-date:')==0:
+                    msgDate=element.replace("Delivery-date: ","")[0:-6]
                 if element.find("Subject:")==0:
                     msgSubject = element.replace("Subject: ","")
                 if element.find("From:")==0:
@@ -83,6 +91,7 @@ def return_specific_message(socket, connection_message, message_num):
                 if element.find("To:")==0:
                     msgTo = element.replace("To: ","")
                     break
+            print "=========================ENDMESSAGE"
             #msgBody = html2text.html2text(msgBody)
             if(len(msgBody)>= 40):
                 msgBodySm = msgBody[:40]

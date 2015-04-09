@@ -59,7 +59,7 @@ def send_mail(host, port, username, password, recipiant, message_subject, messag
                 if temp_data[:3] == '354':
                     server_communications.append(temp_data)
                     temp_data = ""
-                    final_message = "From: <"+username+">\nTo: <"+recipiant+">\nSubject: "+message_subject+"\n"+message_body+"\n.\r\n"
+                    final_message = "Subject: "+message_subject+"\nFrom: <"+username+">\nTo: <"+recipiant+">\nContent-Type: text/html; charset=UTF-8\n<div dir='ltr'>"+message_body.replace("\n","<br/>")+"</div>\n.\r\n"
                     ssl_client_socket.send(final_message)
                     temp_data = ssl_client_socket.recv(2048)
                     if temp_data[:3] == '250':
