@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from birde.models import Message,Connection,User
+from birde.models import Message,Connection,User,Chat
 from django.http import HttpResponse
 from django.shortcuts import redirect
 import json, datetime
@@ -8,6 +8,14 @@ from django.views.decorators.csrf import csrf_exempt
 import smtp_client
 import pop_client
 
+def responsePrintAll():
+    all_messages=[]
+    raw_messages=Message.objects.all().filter(type=False)
+    for msg in raw_messages:
+        all_messages.append(dict({"sender":getattr(msg.owner,"username"),"body":msg.body,"time":":".join(str(msg.dateSent).split(":")[:2]).split(".")[0]}))
+    response={"code":"333","response":all_messages,"cat": "~(=^_^)"}
+    print "PRINTING RESPONSE"
+    return response
 
 def index(request):
     currentUser = request.GET.get('user')
@@ -97,27 +105,25 @@ def chat(request):
     else:
         if message[1]=="SEND":
             #send message
-            savedChat = Message(sender="chat",recipient="chat",dateSent=datetime.datetime.now(),subject="chat",body=message[2],type=False,owner_id=User.objects.get(username=message[0]).id)
-            savedChat.save()
-            all_messages=[]
-            raw_messages=Message.objects.all().filter(type=False)
-            for msg in raw_messages:
-                all_messages.append(dict({"sender":getattr(msg.owner,"username"),"body":msg.body,"time":":".join(str(msg.dateSent).split(":")[:2]).split(".")[0]}))
-            response={"code":"333","response":all_messages,"cat": "~(=^_^)"}
+            if Chat.objects.get(user_id=User.objects.get(username=message[0])).online:
+                chatMessage = Message(sender="chat",recipient="chat",dateSent=datetime.datetime.now(),subject="chat",body=message[2],type=False,owner_id=User.objects.get(username=message[0]).id)
+                chatMessage.save()
+                response= responsePrintAll()
+            else:
+                response={"code":"555","response":[{"body":"Command Failed: You must be logged in to send a message","time":str(datetime.datetime.now())}],"cat": "~(=^_^)"}
         elif message[1]=="LOGIN":
-            #join room
-            print "login"
+            onlineObj = Chat.objects.get(user_id=User.objects.get(username=message[0]))
+            onlineObj.online=True
+            onlineObj.save()
+            loginMessage = Message(sender="server",recipient="chat",dateSent=datetime.datetime.now(),subject="server",body="**[[ "+message[0]+" has logged in ]]**",type=False,owner_id=User.objects.get(username=message[0]).id)
+            loginMessage.save()
+            response= responsePrintAll()
         elif message[1]=="LOGOUT":
             #leave room
             print "logout"
         elif message[1]=="RETR":
             #refresh messages on screen
-            all_messages=[]
-            raw_messages=Message.objects.all().filter(type=False)
-            for msg in raw_messages:
-                all_messages.append(dict({"sender":getattr(msg.owner,"username"),"body":msg.body,"time":":".join(str(msg.dateSent).split(":")[:2]).split(".")[0]}))
-            response={"code":"333","response":all_messages,"cat": "~(=^_^)"}
-            print response
+            response= responsePrintAll()
         elif message[1]=="MOTD":
             #alert motd
             print "motd"
