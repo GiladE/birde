@@ -24,6 +24,8 @@ def index(request):
     message,socket=pop_client.connect_to_server(con_details.popHost,con_details.popPort,con_details.popUser,con_details.popPass)
     message_list=pop_client.return_latest_messages(socket,message)
     sent_list=Message.objects.all().filter(owner=User.objects.get(username=currentUser),type=True)
+    for msg in sent_list:
+        msg.body=msg.body.replace("\n","<br/>")
     user_list=User.objects.all();
     isOnline = Chat.objects.get(user_id=User.objects.get(username=currentUser)).online
     context = {'message_list': message_list, "sent_list":sent_list,"user_list":user_list,"current_user":currentUser,"current_settings":con_details,"is_online":isOnline}
@@ -38,7 +40,7 @@ def send(request):
     con_details=Connection.objects.get(user_id=User.objects.get(username=user))
     communications = smtp_client.send_mail(con_details.smtpHost,con_details.smtpPort,con_details.smtpUser,con_details.smtpPass,msgTo,msgSubject,msgBody)
     response_data={"response":communications[-1][0:3]}
-    savedMsg = Message(sender=con_details.smtpUser,recipient=msgTo,dateSent=datetime.datetime.now(),subject=msgSubject,body=msgBody,type=True,owner_id=User.objects.get(username="root").id)
+    savedMsg = Message(sender=con_details.smtpUser,recipient=msgTo,dateSent=datetime.datetime.now(),subject=msgSubject,body=msgBody,type=True,owner_id=User.objects.get(username=user).id)
     savedMsg.save()
     return HttpResponse(json.dumps(response_data),content_type='application/json')
 
