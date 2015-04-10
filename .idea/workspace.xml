@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9ea0d41f-1563-484e-8ae6-bb1c6d43ef33" name="Default" comment="further templating">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/birde/pop_client.py" afterPath="$PROJECT_DIR$/birde/pop_client.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/birde/views.py" afterPath="$PROJECT_DIR$/birde/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="birde.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -45,8 +45,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6034483" vertical-offset="2055" max-vertical-offset="7710">
-              <caret line="151" column="143" selection-start-line="151" selection-start-column="143" selection-end-line="151" selection-end-column="143" />
+            <state vertical-scroll-proportion="0.73275864" vertical-offset="5790" max-vertical-offset="7860">
+              <caret line="403" column="67" selection-start-line="403" selection-start-column="67" selection-end-line="403" selection-end-column="67" />
               <folding />
             </state>
           </provider>
@@ -65,8 +65,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/birde/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2085">
-              <caret line="29" column="167" selection-start-line="29" selection-start-column="167" selection-end-line="29" selection-end-column="167" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1683" max-vertical-offset="2100">
+              <caret line="136" column="33" selection-start-line="136" selection-start-column="33" selection-end-line="136" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -97,8 +97,8 @@
       <file leaf-file-name="pop_client.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/birde/pop_client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1905" max-vertical-offset="2145">
-              <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2040">
+              <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -134,11 +134,11 @@
         <option value="$PROJECT_DIR$/birde/settings.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/templates/site.css" />
-        <option value="$PROJECT_DIR$/birde/pop_client.py" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/birde/admin.py" />
         <option value="$PROJECT_DIR$/birde/urls.py" />
         <option value="$PROJECT_DIR$/birde/models.py" />
+        <option value="$PROJECT_DIR$/birde/pop_client.py" />
         <option value="$PROJECT_DIR$/birde/views.py" />
         <option value="$PROJECT_DIR$/templates/index.html" />
       </list>
@@ -922,14 +922,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/birde/pop_client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2159" max-vertical-offset="2431">
-          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/birde/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="165">
@@ -964,18 +956,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/birde/pop_client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="675" max-vertical-offset="2040">
+          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/birde/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2085">
-          <caret line="29" column="167" selection-start-line="29" selection-start-column="167" selection-end-line="29" selection-end-column="167" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1683" max-vertical-offset="2100">
+          <caret line="136" column="33" selection-start-line="136" selection-start-column="33" selection-end-line="136" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6034483" vertical-offset="2055" max-vertical-offset="7710">
-          <caret line="151" column="143" selection-start-line="151" selection-start-column="143" selection-end-line="151" selection-end-column="143" />
+        <state vertical-scroll-proportion="0.73275864" vertical-offset="5790" max-vertical-offset="7860">
+          <caret line="403" column="67" selection-start-line="403" selection-start-column="67" selection-end-line="403" selection-end-column="67" />
           <folding />
         </state>
       </provider>

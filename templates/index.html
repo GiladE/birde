@@ -147,7 +147,10 @@
                                             <input type="text" name="chatsend" class="form-control" cols="25" id="chatsend" placeholder="Enter message or command"/>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary"  id="refresh"><span class="glyphicon glyphicon-refresh"></span>Refresh</button>
+                                    </div>
+                                    <div class="col-md-2">
                                         {% if is_online %}
                                         <button type="button" class="btn btn-primary"  id="loginbutton"><span class="glyphicon glyphicon-remove"></span>Logout</button>
                                         {% else %}
@@ -348,6 +351,11 @@
                         }
             });
         });
+        $("#refresh").on("click",function(e){
+            $("#chatsend").val("RETR||CYA");
+            $("#refresh").addClass("m-progress");
+            $("#chatForm").trigger("submit");
+        });
 		$("#loginbutton").on("click",function(e){
             if($("#loginbutton").html()=='<span class="glyphicon glyphicon-user"></span>Login')
 			{
@@ -386,18 +394,20 @@
                 success:
                         function (data) {
                             $("#sendchat").removeClass("m-progress");
+                            $("#refresh").removeClass("m-progress")
                             $("#loginbutton").removeClass("m-progress").removeClass("disabled");
 							if(data["code"]=="333")
 							{
 								$("#chatbox").val("");
 								$.each(data["response"],function(i,item){
 								$("#chatbox").val($("#chatbox").val()+item["sender"]+"<"+item["time"]+"> : "+item["body"]+"\n");});
+                                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
 							}
 							else if(data["code"]=="666")
 							{
 								alert("Your message has been interpretted as a command but is not in the correct format");
 							}
-							else if(data["code"]=="555")
+							else if(data["code"]=="555" || data["code"]=="222")
 							{
 								alert(data["response"][0]["body"]);
 							}

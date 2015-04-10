@@ -14,7 +14,6 @@ def responsePrintAll():
     for msg in raw_messages:
         all_messages.append(dict({"sender":getattr(msg.owner,"username"),"body":msg.body,"time":":".join(str(msg.dateSent).split(":")[:2]).split(".")[0]}))
     response={"code":"333","response":all_messages,"cat": "~(=^_^)"}
-    print "PRINTING RESPONSE"
     return response
 
 def index(request):
@@ -93,7 +92,6 @@ def chat(request):
     # cat - Some sort of ASCII cat to offset the pain of reading an arbitrary protocol message.
     #
     # Codes:
-    #   111 - Command successful, print nothing to chat window
     #   222 - Command successful, popup payload
     #   333 - Command successful, print messages to screen
     #   555 - Command unsuccessful, command failed
@@ -135,7 +133,10 @@ def chat(request):
             print "motd"
         elif message[1]=="USERS":
             #list users in room
-            print "users"
+            user_list=User.objects.all().filter(chat__online=True)
+            response={"code":"222","response":[{"body":"The following users are online: \n","time":str(datetime.datetime.now())}],"cat": "~(=^_^)"}
+            for user in user_list:
+                response["response"][0]["body"]+=user.username+"\n"
         else:
             # command failed
             print "FAIL"
