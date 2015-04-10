@@ -133,6 +133,9 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Chat Room</h4><br/>
+					 <div class="col-md-6">
+						 <button type="button" class="btn btn-primary pull-right"  id="loginbutton">Login</button>
+                     </div>
                 </div>
                 <div class="modal-body">
                     <div class="container">
@@ -373,6 +376,10 @@
 							else if(data["code"]=="666")
 							{
 								alert("Your message has been interpretted as a command but is not in the correct format");
+							}
+							else if(data["code"]=="555")
+							{
+								alert(data["response"]["body"]);
 							}
                                        }
             });
