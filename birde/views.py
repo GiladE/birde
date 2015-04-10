@@ -26,7 +26,8 @@ def index(request):
     message_list=pop_client.return_latest_messages(socket,message)
     sent_list=Message.objects.all().filter(owner=User.objects.get(username=currentUser),type=True)
     user_list=User.objects.all();
-    context = {'message_list': message_list, "sent_list":sent_list,"user_list":user_list,"current_user":currentUser,"current_settings":con_details}
+    isOnline = Chat.objects.get(user_id=User.objects.get(username=currentUser)).online
+    context = {'message_list': message_list, "sent_list":sent_list,"user_list":user_list,"current_user":currentUser,"current_settings":con_details,"is_online":isOnline}
     return render(request, 'index.html', context)
 
 @csrf_exempt
