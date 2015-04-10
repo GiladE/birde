@@ -97,18 +97,18 @@ def return_specific_message(socket, connection_message, message_num):
 
 
 # 4:
-def return_latest_messages(socket,connection_message):
-    mailbox_status = return_server_status(socket,connection_message)
-    mailbox_size = int(mailbox_status)
-    stop_point = mailbox_size - 10
-    latest_messages = []
-    if(mailbox_size <=10):
-        for counter in range(mailbox_size, 0, -1):
-            temp_message=return_specific_message(socket, connection_message, str(counter))
-            latest_messages.append(temp_message)
-    else:
-        latest_messages = return_all_messages(socket, connection_message)
-    return latest_messages
+# def return_latest_messages(socket,connection_message):
+    # mailbox_status = return_server_status(socket,connection_message)
+    # mailbox_size = int(mailbox_status)
+    # stop_point = mailbox_size - 10
+    # latest_messages = []
+    # if(mailbox_size <=10):
+        # for counter in range(mailbox_size, 0, -1):
+            # temp_message=return_specific_message(socket, connection_message, str(counter))
+            # latest_messages.append(temp_message)
+    # else:
+        # latest_messages = return_all_messages(socket, connection_message)
+    # return latest_messages
 
 
 # 5:
