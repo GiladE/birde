@@ -115,12 +115,17 @@ def chat(request):
             onlineObj = Chat.objects.get(user_id=User.objects.get(username=message[0]))
             onlineObj.online=True
             onlineObj.save()
-            loginMessage = Message(sender="server",recipient="chat",dateSent=datetime.datetime.now(),subject="server",body="**[[ "+message[0]+" has logged in ]]**",type=False,owner_id=User.objects.get(username=message[0]).id)
+            loginMessage = Message(sender="server",recipient="chat",dateSent=datetime.datetime.now(),subject="server",body="**** "+message[0]+" has logged in ****",type=False,owner_id=User.objects.get(username=message[0]).id)
             loginMessage.save()
             response= responsePrintAll()
         elif message[1]=="LOGOUT":
             #leave room
-            print "logout"
+            onlineObj = Chat.objects.get(user_id=User.objects.get(username=message[0]))
+            onlineObj.online=False
+            onlineObj.save()
+            loginMessage = Message(sender="server",recipient="chat",dateSent=datetime.datetime.now(),subject="server",body="**** "+message[0]+" has logged out ****",type=False,owner_id=User.objects.get(username=message[0]).id)
+            loginMessage.save()
+            response= responsePrintAll()
         elif message[1]=="RETR":
             #refresh messages on screen
             response= responsePrintAll()
