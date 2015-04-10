@@ -1,4 +1,3 @@
-__author__ = 'JontysLaptop'
 import socket
 import ssl
 import base64
